@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI活用ポテンシャル診断</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 10px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 20px 15px;
+        }
+
+        .question-section {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .examples {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid #6366f1;
+        }
+
+        .examples p {
+            font-size: 0.95em;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            background: #ede9fe;
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .option label {
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .navigation.first-page {
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99,102,241,0.3);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 15px 0 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        .result {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .result-level {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .result-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .btn-consultation {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.1em;
+            padding: 16px 40px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-consultation:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-consultation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-consultation:hover::before {
+            left: 100%;
+        }
+
+        .consultation-icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            .header {
+                padding: 20px 15px;
+            }
+            .content {
+                padding: 15px 12px;
+            }
+            .examples {
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+            .option {
+                padding: 10px;
+            }
+            .progress-bar {
+                margin: 12px 0 12px 0;
+            }
+            .navigation {
+                margin-top: 12px;
+                padding-top: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI活用ポテンシャル診断</h1>
+            <p>あなたの組織のAI活用可能性を診断します</p>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+
+            <!-- 質問1 -->
+            <div class="question-section active" data-section="1">
+                <div class="question">
+                    <div class="question-title">文書作成業務にAIを活用できていますか？</div>
+                    <div class="examples">
+                        <p><strong>【事例】</strong>議事録の自動生成、定型報告書の自動作成、メール・チャットの自動返信、マニュアル・手順書の作成、文書の校正・校閲自動化など</p>
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q1', 1)">
+                            <input type="radio" name="q1" value="1" id="q1_yes">
+                            <label for="q1_yes">活用できている</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q1', 0)">
+                            <input type="radio" name="q1" value="0" id="q1_no">
+                            <label for="q1_no">活用できていない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問1-2 -->
+            <div class="question-section" data-section="1-2">
+                <div class="question">
+                    <div class="question-title">文書作成業務にAIを「活用できている」とお答えいただいた方にお伺いします。どの程度効果を実感していますか？</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q1_2', 2)">
+                            <input type="radio" name="q1_2" value="2" id="q1_2_high">
+                            <label for="q1_2_high">大きな効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q1_2', 1)">
+                            <input type="radio" name="q1_2" value="1" id="q1_2_medium">
+                            <label for="q1_2_medium">少し効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q1_2', 0)">
+                            <input type="radio" name="q1_2" value="0" id="q1_2_low">
+                            <label for="q1_2_low">効果をあまり感じない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問2 -->
+            <div class="question-section" data-section="2">
+                <div class="question">
+                    <div class="question-title">営業・マーケティング業務にAIを活用できていますか？</div>
+                    <div class="examples">
+                        <p><strong>【事例】</strong>営業メールの自動生成、営業資料の自動作成、SNS投稿の自動作成、SEO記事の自動作成、競合分析の自動化など</p>
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q2', 1)">
+                            <input type="radio" name="q2" value="1" id="q2_yes">
+                            <label for="q2_yes">活用できている</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q2', 0)">
+                            <input type="radio" name="q2" value="0" id="q2_no">
+                            <label for="q2_no">活用できていない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問2-2 -->
+            <div class="question-section" data-section="2-2">
+                <div class="question">
+                    <div class="question-title">営業・マーケティング業務にAIを「活用できている」とお答えいただいた方にお伺いします。どの程度効果を実感していますか？</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q2_2', 2)">
+                            <input type="radio" name="q2_2" value="2" id="q2_2_high">
+                            <label for="q2_2_high">大きな効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q2_2', 1)">
+                            <input type="radio" name="q2_2" value="1" id="q2_2_medium">
+                            <label for="q2_2_medium">少し効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q2_2', 0)">
+                            <input type="radio" name="q2_2" value="0" id="q2_2_low">
+                            <label for="q2_2_low">効果をあまり感じない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問3 -->
+            <div class="question-section" data-section="3">
+                <div class="question">
+                    <div class="question-title">採用業務にAIを活用できていますか？</div>
+                    <div class="examples">
+                        <p><strong>【事例】</strong>求人票の自動最適化、履歴書・職歴書のスクリーニング、スカウト文面の自動作成、オファーレターの自動最適化など</p>
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q3', 1)">
+                            <input type="radio" name="q3" value="1" id="q3_yes">
+                            <label for="q3_yes">活用できている</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q3', 0)">
+                            <input type="radio" name="q3" value="0" id="q3_no">
+                            <label for="q3_no">活用できていない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問3-2 -->
+            <div class="question-section" data-section="3-2">
+                <div class="question">
+                    <div class="question-title">採用業務にAIを「活用できている」とお答えいただいた方にお伺いします。どの程度効果を実感していますか？</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q3_2', 2)">
+                            <input type="radio" name="q3_2" value="2" id="q3_2_high">
+                            <label for="q3_2_high">大きな効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q3_2', 1)">
+                            <input type="radio" name="q3_2" value="1" id="q3_2_medium">
+                            <label for="q3_2_medium">少し効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q3_2', 0)">
+                            <input type="radio" name="q3_2" value="0" id="q3_2_low">
+                            <label for="q3_2_low">効果をあまり感じない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問4 -->
+            <div class="question-section" data-section="4">
+                <div class="question">
+                    <div class="question-title">事務処理・定型業務にAIを活用できていますか？</div>
+                    <div class="examples">
+                        <p><strong>【事例】</strong>Excel/Google Sheets自動データ更新、売上データの自動入力・更新、営業活動記録の自動入力、タスク管理ツール連携・完了通知自動化、顧客からの問い合わせ対応自動化、日報の自動作成など</p>
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q4', 1)">
+                            <input type="radio" name="q4" value="1" id="q4_yes">
+                            <label for="q4_yes">活用できている</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q4', 0)">
+                            <input type="radio" name="q4" value="0" id="q4_no">
+                            <label for="q4_no">活用できていない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問4-2 -->
+            <div class="question-section" data-section="4-2">
+                <div class="question">
+                    <div class="question-title">事務処理・定型業務にAIを「活用できている」とお答えいただいた方にお伺いします。どの程度効果を実感していますか？</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 'q4_2', 2)">
+                            <input type="radio" name="q4_2" value="2" id="q4_2_high">
+                            <label for="q4_2_high">大きな効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q4_2', 1)">
+                            <input type="radio" name="q4_2" value="1" id="q4_2_medium">
+                            <label for="q4_2_medium">少し効果を実感</label>
+                        </div>
+                        <div class="option" onclick="selectOption(this, 'q4_2', 0)">
+                            <input type="radio" name="q4_2" value="0" id="q4_2_low">
+                            <label for="q4_2_low">効果をあまり感じない</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問5 -->
+            <div class="question-section" data-section="5">
+                <div class="question">
+                    <div class="question-title">文書作成業務において、活用したことがあるAIツールをすべて選んでください。</div>
+                    <div class="options">
+                        <div class="option" onclick="toggleOption(this, 'q5_chatgpt', 1)">
+                            <input type="checkbox" name="q5_chatgpt" value="1" id="q5_chatgpt">
+                            <label for="q5_chatgpt">ChatGPT</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q5_claude', 1)">
+                            <input type="checkbox" name="q5_claude" value="1" id="q5_claude">
+                            <label for="q5_claude">Claude</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q5_gemini', 1)">
+                            <input type="checkbox" name="q5_gemini" value="1" id="q5_gemini">
+                            <label for="q5_gemini">Gemini</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問6 -->
+            <div class="question-section" data-section="6">
+                <div class="question">
+                    <div class="question-title">資料・プレゼン作成業務において、活用したことがあるAIツールをすべて選んでください。</div>
+                    <div class="options">
+                        <div class="option" onclick="toggleOption(this, 'q6_genspark', 1)">
+                            <input type="checkbox" name="q6_genspark" value="1" id="q6_genspark">
+                            <label for="q6_genspark">Genspark</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q6_gamma', 1)">
+                            <input type="checkbox" name="q6_gamma" value="1" id="q6_gamma">
+                            <label for="q6_gamma">Gamma</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q6_canva', 1)">
+                            <input type="checkbox" name="q6_canva" value="1" id="q6_canva">
+                            <label for="q6_canva">Canva AI</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問7 -->
+            <div class="question-section" data-section="7">
+                <div class="question">
+                    <div class="question-title">調査・リサーチ業務において、活用したことがあるAIツールをすべて選んでください。</div>
+                    <div class="options">
+                        <div class="option" onclick="toggleOption(this, 'q7_perplexity', 1)">
+                            <input type="checkbox" name="q7_perplexity" value="1" id="q7_perplexity">
+                            <label for="q7_perplexity">Perplexity</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q7_manus', 1)">
+                            <input type="checkbox" name="q7_manus" value="1" id="q7_manus">
+                            <label for="q7_manus">Manus</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q7_notebook', 1)">
+                            <input type="checkbox" name="q7_notebook" value="1" id="q7_notebook">
+                            <label for="q7_notebook">NotebookLM</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問8 -->
+            <div class="question-section" data-section="8">
+                <div class="question">
+                    <div class="question-title">定型業務の自動化において、活用したことがあるAIツールをすべて選んでください。</div>
+                    <div class="options">
+                        <div class="option" onclick="toggleOption(this, 'q8_dify', 1)">
+                            <input type="checkbox" name="q8_dify" value="1" id="q8_dify">
+                            <label for="q8_dify">Dify</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q8_n8n', 1)">
+                            <input type="checkbox" name="q8_n8n" value="1" id="q8_n8n">
+                            <label for="q8_n8n">n8n</label>
+                        </div>
+                        <div class="option" onclick="toggleOption(this, 'q8_make', 1)">
+                            <input type="checkbox" name="q8_make" value="1" id="q8_make">
+                            <label for="q8_make">Make</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 結果表示 -->
+            <div class="question-section" data-section="result">
+                <div class="result">
+                    <div class="result-level" id="levelTitle">AI活用で60-80%の時間削減の可能性あり</div>
+                    <div class="result-description" id="levelDescription">
+                        現在のAI活用はまだ初期段階。文書作成、営業活動、事務処理など多くの業務領域でAI導入による大幅な効率化が期待できます。適切なツール選定と導入支援により、大幅な業務削減が見込めます。
+                    </div>
+                    <button class="btn btn-consultation" onclick="openConsultation()">
+                        <span class="consultation-icon">💬</span>AI活用について話を聞いてみる
+                    </button>
+                    <button class="btn btn-secondary" onclick="restartAssessment()">再診断する</button>
+                </div>
+            </div>
+
+            <div class="navigation first-page">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">戻る</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">次へ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        let maxSection = 8;
+        let answers = {};
+        let questionFlow = [1];
+
+        function updateProgress() {
+            // 全体の質問数を動的に計算
+            let totalQuestions = 8; // 質問5-8は必須
+            
+            // 条件分岐による追加質問をカウント
+            if (answers.q1 === 1) totalQuestions++;
+            if (answers.q2 === 1) totalQuestions++;
+            if (answers.q3 === 1) totalQuestions++;
+            if (answers.q4 === 1) totalQuestions++;
+            
+            // 現在回答済みの質問数を計算
+            let answeredQuestions = 0;
+            
+            // 基本質問の回答をカウント
+            if (answers.hasOwnProperty('q1')) answeredQuestions++;
+            if (answers.hasOwnProperty('q1_2')) answeredQuestions++;
+            if (answers.hasOwnProperty('q2')) answeredQuestions++;
+            if (answers.hasOwnProperty('q2_2')) answeredQuestions++;
+            if (answers.hasOwnProperty('q3')) answeredQuestions++;
+            if (answers.hasOwnProperty('q3_2')) answeredQuestions++;
+            if (answers.hasOwnProperty('q4')) answeredQuestions++;
+            if (answers.hasOwnProperty('q4_2')) answeredQuestions++;
+            
+            // 質問5-8の回答をカウント（現在のセクションまで）
+            if (questionFlow.includes(5) || currentSection >= 5) {
+                answeredQuestions++; // 質問5に到達または完了
+            }
+            if (questionFlow.includes(6) || currentSection >= 6) {
+                answeredQuestions++; // 質問6に到達または完了
+            }
+            if (questionFlow.includes(7) || currentSection >= 7) {
+                answeredQuestions++; // 質問7に到達または完了
+            }
+            if (questionFlow.includes(8) || currentSection >= 8) {
+                answeredQuestions++; // 質問8に到達または完了
+            }
+            
+            const progress = Math.min((answeredQuestions / totalQuestions) * 100, 100);
+            document.querySelector('.progress-fill').style.width = progress + '%';
+        }
+
+        function selectOption(element, questionName, value) {
+            // Remove selected class from siblings
+            element.parentNode.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Check the radio button
+            element.querySelector('input').checked = true;
+            
+            // Store answer
+            answers[questionName] = parseInt(value);
+            
+            // プログレスバーを更新
+            updateProgress();
+        }
+
+        function toggleOption(element, questionName, value) {
+            const checkbox = element.querySelector('input');
+            
+            if (checkbox.checked) {
+                element.classList.remove('selected');
+                checkbox.checked = false;
+                delete answers[questionName];
+            } else {
+                element.classList.add('selected');
+                checkbox.checked = true;
+                answers[questionName] = parseInt(value);
+            }
+        }
+
+        function showSection(sectionNumber) {
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const targetSection = document.querySelector(`[data-section="${sectionNumber}"]`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const navigation = document.querySelector('.navigation');
+            
+            if (sectionNumber === 1) {
+                prevBtn.style.display = 'none';
+                navigation.classList.add('first-page');
+            } else {
+                prevBtn.style.display = 'inline-block';
+                navigation.classList.remove('first-page');
+            }
+
+            if (sectionNumber === 'result') {
+                document.querySelector('.navigation').style.display = 'none';
+            } else {
+                document.querySelector('.navigation').style.display = 'flex';
+                nextBtn.textContent = sectionNumber === maxSection ? '結果を見る' : '次へ';
+            }
+        }
+
+        function getNextSection(current) {
+            if (current === 1) {
+                return answers.q1 === 1 ? '1-2' : 2;
+            }
+            if (current === '1-2') return 2;
+            if (current === 2) {
+                return answers.q2 === 1 ? '2-2' : 3;
+            }
+            if (current === '2-2') return 3;
+            if (current === 3) {
+                return answers.q3 === 1 ? '3-2' : 4;
+            }
+            if (current === '3-2') return 4;
+            if (current === 4) {
+                return answers.q4 === 1 ? '4-2' : 5;
+            }
+            if (current === '4-2') return 5;
+            if (current >= 5 && current < 8) return current + 1;
+            if (current === 8) return 'result';
+            return null;
+        }
+
+        function validateCurrentQuestion() {
+            // 各質問の必須回答をチェック
+            if (currentSection === 1) {
+                return answers.hasOwnProperty('q1');
+            }
+            if (currentSection === '1-2') {
+                return answers.hasOwnProperty('q1_2');
+            }
+            if (currentSection === 2) {
+                return answers.hasOwnProperty('q2');
+            }
+            if (currentSection === '2-2') {
+                return answers.hasOwnProperty('q2_2');
+            }
+            if (currentSection === 3) {
+                return answers.hasOwnProperty('q3');
+            }
+            if (currentSection === '3-2') {
+                return answers.hasOwnProperty('q3_2');
+            }
+            if (currentSection === 4) {
+                return answers.hasOwnProperty('q4');
+            }
+            if (currentSection === '4-2') {
+                return answers.hasOwnProperty('q4_2');
+            }
+            // 質問5-8はチェックボックスなので必須ではない
+            return true;
+        }
+
+        function nextQuestion() {
+            // 必須回答のチェック
+            if (!validateCurrentQuestion()) {
+                alert('この質問への回答が必要です。');
+                return;
+            }
+
+            const nextSection = getNextSection(currentSection);
+            
+            if (nextSection === 'result') {
+                showResult();
+                return;
+            }
+
+            if (nextSection) {
+                currentSection = nextSection;
+                if (!questionFlow.includes(currentSection)) {
+                    questionFlow.push(currentSection);
+                }
+                showSection(currentSection);
+                updateProgress(); // プログレスバーを更新
+            }
+        }
+
+        function previousQuestion() {
+            const currentIndex = questionFlow.indexOf(currentSection);
+            if (currentIndex > 0) {
+                currentSection = questionFlow[currentIndex - 1];
+                showSection(currentSection);
+                updateProgress(); // プログレスバーを更新
+            }
+        }
+
+        function calculateScore() {
+            let score = 0;
+            
+            // 業務活用の基本点数とフォローアップ
+            score += answers.q1 || 0;
+            score += answers.q1_2 || 0;
+            score += answers.q2 || 0;
+            score += answers.q2_2 || 0;
+            score += answers.q3 || 0;
+            score += answers.q3_2 || 0;
+            score += answers.q4 || 0;
+            score += answers.q4_2 || 0;
+            
+            // ツール使用経験
+            score += answers.q5_chatgpt || 0;
+            score += answers.q5_claude || 0;
+            score += answers.q5_gemini || 0;
+            score += answers.q6_genspark || 0;
+            score += answers.q6_gamma || 0;
+            score += answers.q6_canva || 0;
+            score += answers.q7_perplexity || 0;
+            score += answers.q7_manus || 0;
+            score += answers.q7_notebook || 0;
+            score += answers.q8_dify || 0;
+            score += answers.q8_n8n || 0;
+            score += answers.q8_make || 0;
+            
+            return score;
+        }
+
+        function getLevel(score) {
+            if (score >= 0 && score <= 9) {
+                return {
+                    title: "AI活用で60-80%の時間削減の可能性あり",
+                    description: "現在のAI活用はまだ初期段階。文書作成、営業活動、事務処理など多くの業務領域でAI導入による大幅な効率化が期待できます。適切なツール選定と導入支援により、大幅な業務削減が見込めます。",
+                    color: "#ef4444",
+                    buttonText: "AI活用について話を聞いてみる"
+                };
+            } else if (score >= 10 && score <= 17) {
+                return {
+                    title: "AI活用で40-60%の時間削減の可能性あり",
+                    description: "基本的なAI活用は始まっていますが、まだ活用できていない業務領域があります。営業・採用・事務処理の自動化や、より高度なAIツールの導入により、さらなる業務効率化が実現可能です。",
+                    color: "#f59e0b",
+                    buttonText: "AI活用について話を聞いてみる"
+                };
+            } else if (score >= 18 && score <= 22) {
+                return {
+                    title: "AI活用で30-40%の時間削減の可能性あり",
+                    description: "多くの業務でAIを活用されていますが、ツールの最適化や運用改善により更なる効率化が可能です。業務プロセスの見直しと高度なAI・RPAツールの導入で、業務時間の削減が期待できます。",
+                    color: "#10b981",
+                    buttonText: "AI活用について話を聞いてみる"
+                };
+            } else {
+                return {
+                    title: "AI活用の達人レベルです！",
+                    description: "既に非常に高度なAI活用を実現されており、多くの企業の参考となるレベルです。ぜひAI活用のユースケースについて情報交換をさせていただけないでしょうか。",
+                    color: "#8b5cf6",
+                    buttonText: "AI活用の情報交換をしませんか"
+                };
+            }
+        }
+
+        function showResult() {
+            const score = calculateScore();
+            const level = getLevel(score);
+            
+            document.getElementById('levelTitle').textContent = level.title;
+            document.getElementById('levelTitle').style.color = level.color;
+            document.getElementById('levelDescription').textContent = level.description;
+            
+            // ボタンテキストを動的に変更
+            const consultationBtn = document.querySelector('.btn-consultation');
+            consultationBtn.innerHTML = `<span class="consultation-icon">${level.buttonText.includes('情報交換') ? '🤝' : '💬'}</span>${level.buttonText}`;
+            
+            currentSection = 'result';
+            showSection('result');
+            updateProgress();
+        }
+
+        function restartAssessment() {
+            currentSection = 1;
+            questionFlow = [1];
+            answers = {};
+            
+            // Reset all selections
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+                const input = option.querySelector('input');
+                if (input) {
+                    input.checked = false;
+                }
+            });
+            
+            showSection(1);
+            updateProgress();
+        }
+
+        function openConsultation() {
+            // ボタンテキストに応じて遷移先を分ける
+            const consultationBtn = document.querySelector('.btn-consultation');
+            const buttonText = consultationBtn.textContent.trim();
+            
+            if (buttonText.includes('情報交換')) {
+                // 達人レベル用のリンク
+                window.open('https://timerex.net/s/bondeat/6a10178f', '_blank');
+            } else {
+                // 通常レベル用のリンク
+                window.open('https://timerex.net/s/bondeat/ec75a36f', '_blank');
+            }
+        }
+
+        // 初期化
+        updateProgress();
+    </script>
+</body>
+</html>
