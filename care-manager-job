@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>居宅介護施設 やすらぎの家 | 心に寄り添う介護サービス</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* ヘッダー */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            background: #fff5f0;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .header-top-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-main {
+            padding: 15px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ff6b35;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #ff6b35;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* メインビジュアル */
+        .hero {
+            margin-top: 120px;
+            height: 500px;
+            background: linear-gradient(rgba(255, 154, 86, 0.85), rgba(255, 107, 53, 0.85)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><rect fill="%23f0f0f0"/><circle cx="600" cy="250" r="100" fill="%23e0e0e0"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #ff6b35;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* お知らせセクション */
+        .news-section {
+            padding: 60px 0;
+            background: #fff9f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        .news-list {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .news-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 20px;
+            transition: background 0.3s;
+        }
+
+        .news-item:hover {
+            background: #fff9f5;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-date {
+            background: #ff6b35;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            height: fit-content;
+        }
+
+        .news-category {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #ffe4dc;
+            color: #ff6b35;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        /* サービス紹介 */
+        .services-section {
+            padding: 80px 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+        }
+
+        .service-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* ご利用者様の声 */
+        .voices-section {
+            padding: 80px 0;
+            background: linear-gradient(180deg, #ffffff 0%, #fff9f5 100%);
+        }
+
+        .voices-grid {
+            display: grid;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .voice-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .voice-card:hover {
+            transform: translateX(10px);
+        }
+
+        .user-photo {
+            flex-shrink: 0;
+        }
+
+        .photo-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffe4dc 0%, #ffcdb8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #ff9a56;
+        }
+
+        .voice-content h4 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .service-type {
+            display: inline-block;
+            padding: 3px 12px;
+            background: #ff6b35;
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .voice-text {
+            color: #666;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .family-voices {
+            margin-top: 80px;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .family-card {
+            background: white;
+            border-left: 4px solid #ff6b35;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .quote-mark {
+            font-size: 60px;
+            color: #ffe4dc;
+            line-height: 1;
+            margin-bottom: -20px;
+            font-family: serif;
+        }
+
+        .family-card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .family-name {
+            text-align: right;
+            font-weight: bold;
+            color: #ff6b35;
+            font-size: 14px;
+        }
+
+        .photo-gallery {
+            margin-top: 80px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            text-align: center;
+        }
+
+        .gallery-photo {
+            background: linear-gradient(135deg, #ffe4dc 0%, #ffcdb8 100%);
+            border-radius: 10px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff9a56;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 施設紹介 */
+        .facility-section {
+            padding: 80px 0;
+            background: #fff9f5;
+        }
+
+        .facility-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .facility-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .facility-image {
+            background: #ffe4dc;
+            border-radius: 10px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff9a56;
+            font-size: 14px;
+        }
+
+        .facility-text h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .facility-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .facility-features {
+            list-style: none;
+        }
+
+        .facility-features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #555;
+        }
+
+        .facility-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        /* 料金案内 */
+        .pricing-section {
+            padding: 80px 0;
+        }
+
+        .pricing-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-top: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #ff6b35;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background: #fff9f5;
+        }
+
+        /* アクセス */
+        .access-section {
+            padding: 80px 0;
+            background: #fff9f5;
+        }
+
+        .access-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .access-info {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .access-info h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            width: 100px;
+            color: #ff6b35;
+        }
+
+        .info-content {
+            flex: 1;
+            color: #666;
+        }
+
+        .map-placeholder {
+            background: #ffe4dc;
+            border-radius: 10px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff9a56;
+        }
+
+        /* フッター */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section p, .footer-section ul {
+            color: #bbb;
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .header-top-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero-content h2 {
+                font-size: 32px;
+            }
+
+            .facility-content,
+            .access-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="header-top">
+            <div class="header-top-content">
+                <span>📞 お電話でのお問い合わせ: 03-1234-5678</span>
+                <span>営業時間: 平日 9:00-18:00</span>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🏠</div>
+                    <div class="logo-text">
+                        <h1>やすらぎの家</h1>
+                        <p>居宅介護施設</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#services">サービス</a></li>
+                        <li><a href="#facility">施設紹介</a></li>
+                        <li><a href="#pricing">料金案内</a></li>
+                        <li><a href="#access">アクセス</a></li>
+                        <li><a href="#contact">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインビジュアル -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>心に寄り添う、温かい介護</h2>
+            <p>ご利用者様一人ひとりの笑顔のために、私たちができること</p>
+            <a href="#contact" class="cta-button">無料相談はこちら</a>
+        </div>
+    </section>
+
+    <!-- お知らせ -->
+    <section class="news-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>お知らせ</h2>
+                <p>最新情報をお届けします</p>
+            </div>
+            <div class="news-list">
+                <div class="news-item">
+                    <span class="news-date">2025.01.15</span>
+                    <div>
+                        <span class="news-category">イベント</span>
+                        <strong>2月の介護相談会開催のお知らせ</strong>
+                        <p>2月10日（土）に無料介護相談会を開催いたします。お気軽にご参加ください。</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-date">2025.01.10</span>
+                    <div>
+                        <span class="news-category">お知らせ</span>
+                        <strong>年末年始の営業について</strong>
+                        <p>12月29日～1月3日まで休業とさせていただきます。緊急時の連絡先はこちらをご確認ください。</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-date">2024.12.20</span>
+                    <div>
+                        <span class="news-category">採用情報</span>
+                        <strong>介護スタッフ募集中</strong>
+                        <p>一緒に働く仲間を募集しています。未経験の方も歓迎です。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- サービス紹介 -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>サービス内容</h2>
+                <p>お一人おひとりに合わせた最適なケアプランをご提案します</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>訪問介護</h3>
+                    <p>ご自宅での生活を継続できるよう、訪問介護員がご自宅を訪問し、身体介護や生活援助を行います。入浴、排泄、食事などの介助から、掃除、洗濯、調理などの家事援助まで幅広くサポートいたします。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>デイサービス</h3>
+                    <p>日中、施設に通っていただき、入浴や食事、レクリエーションなどを通じて、心身の機能維持・向上を図ります。他の利用者様との交流を通じて、社会的な孤立を防ぎます。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛏️</div>
+                    <h3>ショートステイ</h3>
+                    <p>短期間施設に宿泊していただき、24時間体制でケアを行います。ご家族の介護負担軽減や、急な用事の際にもご利用いただけます。最長30日間のご利用が可能です。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>ケアプラン作成</h3>
+                    <p>ケアマネジャーが、ご本人やご家族の希望を伺いながら、最適なケアプランを作成します。定期的な見直しを行い、状況の変化に応じて柔軟に対応いたします。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏥</div>
+                    <h3>医療連携</h3>
+                    <p>地域の医療機関と密接に連携し、看護師による健康管理や、必要に応じた医療的ケアを提供します。緊急時の対応体制も整えています。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💬</div>
+                    <h3>介護相談</h3>
+                    <p>介護に関する様々なご相談を無料で承ります。介護保険の申請方法から、日常の介護の悩みまで、経験豊富なスタッフが親身になって対応いたします。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ご利用者様の声 -->
+    <section class="voices-section" id="voices">
+        <div class="container">
+            <div class="section-title">
+                <h2>ご利用者様の笑顔</h2>
+                <p>日々の生活の中で生まれる素敵な笑顔をご紹介します</p>
+            </div>
+            <div class="voices-grid">
+                <div class="voice-card">
+                    <div class="user-photo">
+                        <div class="photo-placeholder">
+                            <span style="font-size: 50px;">😊</span>
+                        </div>
+                    </div>
+                    <div class="voice-content">
+                        <h4>田中 花子様（82歳）</h4>
+                        <p class="service-type">デイサービスご利用</p>
+                        <p class="voice-text">「毎週のデイサービスが楽しみです。お友達もたくさんできて、スタッフの皆さんも親切で、第二の家族のようです。リハビリ体操のおかげで、足腰も強くなりました。」</p>
+                    </div>
+                </div>
+                <div class="voice-card">
+                    <div class="user-photo">
+                        <div class="photo-placeholder">
+                            <span style="font-size: 50px;">😄</span>
+                        </div>
+                    </div>
+                    <div class="voice-content">
+                        <h4>鈴木 太郎様（78歳）</h4>
+                        <p class="service-type">訪問介護ご利用</p>
+                        <p class="voice-text">「自宅で生活を続けられることが本当に嬉しいです。ヘルパーさんが来てくれる日は、話し相手にもなってくれて、一人暮らしの不安が解消されました。」</p>
+                    </div>
+                </div>
+                <div class="voice-card">
+                    <div class="user-photo">
+                        <div class="photo-placeholder">
+                            <span style="font-size: 50px;">😊</span>
+                        </div>
+                    </div>
+                    <div class="voice-content">
+                        <h4>佐藤 美代子様（85歳）</h4>
+                        <p class="service-type">ショートステイご利用</p>
+                        <p class="voice-text">「家族が旅行に行く時に利用しています。施設はきれいで、食事も美味しく、スタッフの方々の心配りに感謝しています。安心して過ごせる場所です。」</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="family-voices">
+                <h3 style="text-align: center; margin: 60px 0 40px; font-size: 28px; color: #2c3e50;">ご家族様からのメッセージ</h3>
+                <div class="family-grid">
+                    <div class="family-card">
+                        <div class="quote-mark">"</div>
+                        <p>「母がデイサービスから帰ってくると、いつも笑顔で今日の出来事を話してくれます。やすらぎの家さんのおかげで、母も私たち家族も安心して毎日を過ごせています。」</p>
+                        <p class="family-name">— 田中様のご家族</p>
+                    </div>
+                    <div class="family-card">
+                        <div class="quote-mark">"</div>
+                        <p>「父の介護で悩んでいた時、親身になって相談に乗っていただきました。適切なケアプランのおかげで、父も私たちも笑顔が増えました。プロの支援の大切さを実感しています。」</p>
+                        <p class="family-name">— 鈴木様のご家族</p>
+                    </div>
+                    <div class="family-card">
+                        <div class="quote-mark">"</div>
+                        <p>「仕事と介護の両立で限界を感じていましたが、訪問介護とショートステイを組み合わせることで、無理なく続けられるようになりました。感謝の気持ちでいっぱいです。」</p>
+                        <p class="family-name">— 佐藤様のご家族</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-gallery">
+                <h3 style="text-align: center; margin: 60px 0 40px; font-size: 28px; color: #2c3e50;">日常の一コマ</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <div class="gallery-photo">レクリエーション風景</div>
+                        <p>みんなで楽しく体操</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-photo">季節の行事</div>
+                        <p>お花見会での一枚</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-photo">創作活動</div>
+                        <p>手工芸を楽しむ時間</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-photo">お食事風景</div>
+                        <p>みんなで囲む食卓</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-photo">園芸活動</div>
+                        <p>庭で野菜を育てています</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-photo">音楽療法</div>
+                        <p>懐かしい歌を一緒に</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 施設紹介 -->
+    <section class="facility-section" id="facility">
+        <div class="container">
+            <div class="section-title">
+                <h2>施設紹介</h2>
+                <p>安心・安全・快適な環境でお過ごしいただけます</p>
+            </div>
+            <div class="facility-content">
+                <div class="facility-images">
+                    <div class="facility-image">共有スペース</div>
+                    <div class="facility-image">個室</div>
+                    <div class="facility-image">浴室</div>
+                    <div class="facility-image">リハビリ室</div>
+                </div>
+                <div class="facility-text">
+                    <h3>快適な生活空間</h3>
+                    <p>やすらぎの家は、2020年に全面リニューアルを行い、バリアフリー設計の明るく清潔な施設です。プライバシーに配慮した個室と、交流を楽しめる共有スペースを完備しています。</p>
+                    <p>四季折々の花が楽しめる中庭や、日当たりの良いテラスなど、心安らぐ環境づくりに努めています。</p>
+                    <ul class="facility-features">
+                        <li>全館バリアフリー設計</li>
+                        <li>24時間スタッフ常駐</li>
+                        <li>個室全室冷暖房完備</li>
+                        <li>機械浴・特殊浴槽完備</li>
+                        <li>リハビリ専用スペース</li>
+                        <li>緊急通報システム設置</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 料金案内 -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>料金案内</h2>
+                <p>介護保険適用で、自己負担を軽減できます</p>
+            </div>
+            <div class="pricing-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>サービス内容</th>
+                            <th>要介護度</th>
+                            <th>月額料金目安（1割負担）</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>訪問介護（週3回）</td>
+                            <td>要介護1</td>
+                            <td>約8,000円</td>
+                            <td>1回60分の場合</td>
+                        </tr>
+                        <tr>
+                            <td>訪問介護（週3回）</td>
+                            <td>要介護3</td>
+                            <td>約12,000円</td>
+                            <td>1回60分の場合</td>
+                        </tr>
+                        <tr>
+                            <td>デイサービス（週2回）</td>
+                            <td>要介護1</td>
+                            <td>約6,500円</td>
+                            <td>食事代別途</td>
+                        </tr>
+                        <tr>
+                            <td>デイサービス（週2回）</td>
+                            <td>要介護3</td>
+                            <td>約9,500円</td>
+                            <td>食事代別途</td>
+                        </tr>
+                        <tr>
+                            <td>ショートステイ（7日間）</td>
+                            <td>要介護2</td>
+                            <td>約6,000円</td>
+                            <td>居住費・食費別途</td>
+                        </tr>
+                        <tr>
+                            <td>ケアプラン作成</td>
+                            <td>全介護度</td>
+                            <td>無料</td>
+                            <td>全額介護保険適用</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: #666;">
+                ※料金は目安です。詳細な料金については、お気軽にお問い合わせください。<br>
+                ※所得に応じて自己負担割合が変わる場合があります。
+            </p>
+        </div>
+    </section>
+
+    <!-- アクセス -->
+    <section class="access-section" id="access">
+        <div class="container">
+            <div class="section-title">
+                <h2>アクセス</h2>
+                <p>お気軽にお越しください</p>
+            </div>
+            <div class="access-content">
+                <div class="access-info">
+                    <h3>やすらぎの家 本部</h3>
+                    <div class="info-item">
+                        <span class="info-label">所在地</span>
+                        <span class="info-content">〒123-4567<br>東京都世田谷区○○町1-2-3</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">電話番号</span>
+                        <span class="info-content">03-1234-5678</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">FAX</span>
+                        <span class="info-content">03-1234-5679</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">営業時間</span>
+                        <span class="info-content">平日 9:00～18:00<br>土曜 9:00～17:00<br>日曜・祝日 休業</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">アクセス</span>
+                        <span class="info-content">
+                            ・○○線「△△駅」より徒歩10分<br>
+                            ・××バス「□□停留所」より徒歩3分<br>
+                            ・駐車場完備（10台）
+                        </span>
+                    </div>
+                </div>
+                <div class="map-placeholder">
+                    地図エリア
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>やすらぎの家について</h4>
+                <p>私たちは、地域に根ざした介護サービスを提供し、ご利用者様とそのご家族の皆様が安心して生活できるよう、全力でサポートいたします。</p>
+                <p style="margin-top: 20px;">
+                    <strong>介護保険事業所番号:</strong> 1234567890<br>
+                    <strong>法人名:</strong> 社会福祉法人やすらぎ会
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>サービス</h4>
+                <ul>
+                    <li><a href="#services">訪問介護</a></li>
+                    <li><a href="#services">デイサービス</a></li>
+                    <li><a href="#services">ショートステイ</a></li>
+                    <li><a href="#services">ケアプラン作成</a></li>
+                    <li><a href="#services">介護相談</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>施設情報</h4>
+                <ul>
+                    <li><a href="#facility">施設紹介</a></li>
+                    <li><a href="#pricing">料金案内</a></li>
+                    <li><a href="#access">アクセス</a></li>
+                    <li><a href="#">採用情報</a></li>
+                    <li><a href="#">よくある質問</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>お問い合わせ</h4>
+                <p>
+                    📞 03-1234-5678<br>
+                    📧 info@yasuragi-care.jp<br>
+                    受付時間: 平日 9:00-18:00
+                </p>
+                <p style="margin-top: 20px;">
+                    <a href="#" style="display: inline-block; padding: 10px 20px; background: #ff6b35; color: white; text-decoration: none; border-radius: 5px;">お問い合わせフォーム</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 居宅介護施設 やすらぎの家. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
